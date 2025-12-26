@@ -9,9 +9,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.developersuraj</groupId>
-    <artifactId>co-qua-ai</artifactId>
+    <groupId>com.github.Surajhub21</groupId>
+    <artifactId>developersuraj-coquaai</artifactId>
     <version>1.0.0</version>
+    <packaging>jar</packaging>
+
     <name>CoQuaAI</name>
     <description>CoQuaAI</description>
     <url/>
@@ -47,8 +49,18 @@
         </dependency>
     </dependencies>
 
+<!--    GithubPackages-->
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/Surajhub21/CoQuaAI</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
+
         </plugins>
     </build>
 
