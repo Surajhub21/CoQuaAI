@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>com.developersuraj</groupId>
-    <artifactId>CoQuaAI</artifactId>
+    <artifactId>co-qua-ai</artifactId>
     <version>1.0.0</version>
     <name>CoQuaAI</name>
     <description>CoQuaAI</description>
