@@ -4,21 +4,20 @@ import java.util.List;
 
 public class ComponentInfo {
 
-    private final String name;
+    private final Class<?> targetClass;
     private final ComponentType type;
     private final List<Class<?>> dependencies;
 
-    public ComponentInfo(
-            String name,
-            ComponentType type,
-            List<Class<?>> dependencies) {
-        this.name = name;
+    public ComponentInfo(Class<?> targetClass,
+                         ComponentType type,
+                         List<Class<?>> dependencies) {
+        this.targetClass = targetClass;
         this.type = type;
         this.dependencies = dependencies;
     }
 
-    public String getName() {
-        return name;
+    public Class<?> getTargetClass() {
+        return targetClass;
     }
 
     public ComponentType getType() {
@@ -27,5 +26,9 @@ public class ComponentInfo {
 
     public List<Class<?>> getDependencies() {
         return dependencies;
+    }
+
+    public String getName() {
+        return targetClass.getSimpleName();
     }
 }

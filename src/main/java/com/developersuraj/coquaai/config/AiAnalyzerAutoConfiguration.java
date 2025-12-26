@@ -1,7 +1,7 @@
 package com.developersuraj.coquaai.config;
 
 import com.developersuraj.coquaai.core.analyzer.SpringContextScanner;
-import com.developersuraj.coquaai.core.impl.ControllerRepositoryRule;
+import com.developersuraj.coquaai.core.roles.impl.ControllerRepositoryRule;
 import com.developersuraj.coquaai.core.engine.RuleEngine;
 import com.developersuraj.coquaai.web.AiReviewController;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

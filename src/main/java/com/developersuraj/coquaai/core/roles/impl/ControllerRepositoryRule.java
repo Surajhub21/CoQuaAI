@@ -1,10 +1,10 @@
-package com.developersuraj.coquaai.core.impl;
+package com.developersuraj.coquaai.core.roles.impl;
 
 import com.developersuraj.coquaai.Entity.ComponentInfo;
 import com.developersuraj.coquaai.Entity.ComponentType;
 import com.developersuraj.coquaai.Entity.Severity;
 import com.developersuraj.coquaai.Entity.Violation;
-import com.developersuraj.coquaai.core.Rule;
+import com.developersuraj.coquaai.core.roles.Rule;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.developersuraj.coquaai.core;
+package com.developersuraj.coquaai.core.roles;
 
 import com.developersuraj.coquaai.Entity.ComponentInfo;
 import com.developersuraj.coquaai.Entity.Severity;

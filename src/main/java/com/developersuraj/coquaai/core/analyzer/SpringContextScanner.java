@@ -43,7 +43,7 @@ public class SpringContextScanner {
                 .forEach(bean ->
                         components.add(
                                 new ComponentInfo(
-                                        getRealClass(bean).getSimpleName(),
+                                        getRealClass(bean),
                                         ComponentType.REPOSITORY,
                                         List.of()
                                 )));
@@ -61,7 +61,7 @@ public class SpringContextScanner {
         List<Class<?>> dependencies = extractConstructorDependencies(realClass);
 
         return new ComponentInfo(
-                realClass.getSimpleName(),
+                realClass,
                 type,
                 dependencies
         );
