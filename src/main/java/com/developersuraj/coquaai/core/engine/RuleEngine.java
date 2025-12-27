@@ -2,10 +2,11 @@ package com.developersuraj.coquaai.core.engine;
 
 import com.developersuraj.coquaai.Entity.ComponentInfo;
 import com.developersuraj.coquaai.Entity.Violation;
-import com.developersuraj.coquaai.core.roles.Rule;
+import com.developersuraj.coquaai.core.rules.Rule;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class RuleEngine {
 

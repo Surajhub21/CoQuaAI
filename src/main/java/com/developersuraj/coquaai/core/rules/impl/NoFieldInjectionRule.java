@@ -1,51 +1,53 @@
-package com.developersuraj.coquaai.core.roles.impl;
+package com.developersuraj.coquaai.core.rules.impl;
 
 import com.developersuraj.coquaai.Entity.ComponentInfo;
-import com.developersuraj.coquaai.Entity.ComponentType;
 import com.developersuraj.coquaai.Entity.Severity;
 import com.developersuraj.coquaai.Entity.Violation;
-import com.developersuraj.coquaai.core.roles.Rule;
+import com.developersuraj.coquaai.core.rules.Rule;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ControllerRepositoryRule implements Rule {
+public class NoFieldInjectionRule implements Rule {
+
     @Override
     public String name() {
-        return "Controller-Repository Dependency";
+        return "Field Injection Detected";
     }
 
     @Override
     public Severity severity() {
-        return Severity.HIGH;
+        return Severity.MEDIUM;
     }
 
     @Override
     public List<Violation> evaluate(List<ComponentInfo> components) {
+
         List<Violation> violations = new ArrayList<>();
 
         for (ComponentInfo component : components) {
 
-            if (component.getType() != ComponentType.CONTROLLER) {
-                continue;
-            }
+            Class<?> clazz = component.getTargetClass();
 
-            for (Class<?> dep : component.getDependencies()) {
+            for (Field field : clazz.getDeclaredFields()) {
 
-                if (org.springframework.data.repository.Repository
-                        .class.isAssignableFrom(dep)) {
+                if (field.isAnnotationPresent(Autowired.class)) {
 
                     violations.add(
                             new Violation(
                                     name(),
                                     severity(),
                                     component.getName()
-                                            + " directly depends on "
-                                            + dep.getSimpleName()
-                            ));
+                                            + " uses field injection: "
+                                            + field.getName()
+                            )
+                    );
                 }
             }
         }
+
         return violations;
     }
 }

@@ -1,9 +1,8 @@
 package com.developersuraj.coquaai.config;
 
 import com.developersuraj.coquaai.core.analyzer.SpringContextScanner;
-import com.developersuraj.coquaai.core.roles.impl.ControllerRepositoryRule;
 import com.developersuraj.coquaai.core.engine.RuleEngine;
-import com.developersuraj.coquaai.core.roles.impl.NoFieldInjectionRule;
+import com.developersuraj.coquaai.core.rules.impl.*;
 import com.developersuraj.coquaai.web.AiReviewController;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
@@ -27,7 +26,13 @@ public class AiAnalyzerAutoConfiguration {
     @ConditionalOnMissingBean
     public RuleEngine ruleEngine() {
         return new RuleEngine(
-                List.of(new ControllerRepositoryRule() , new NoFieldInjectionRule())
+                List.of(
+                        new LayerViolation() ,
+                        new NoFieldInjectionRule(),
+                        new ControllerMultipleResponsibilities(),
+                        new NamingConventionViolations(),
+                        new TooManyPublicMethods()
+                )
         );
     }
 

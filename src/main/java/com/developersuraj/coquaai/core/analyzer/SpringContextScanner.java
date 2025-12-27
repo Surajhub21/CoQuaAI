@@ -3,6 +3,7 @@ package com.developersuraj.coquaai.core.analyzer;
 import com.developersuraj.coquaai.Entity.ComponentInfo;
 import com.developersuraj.coquaai.Entity.ComponentType;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +29,11 @@ public class SpringContextScanner {
                 .forEach(bean ->
                         components.add(
                                 buildComponent(bean, ComponentType.CONTROLLER)));
+
+        context.getBeansWithAnnotation(Controller.class)
+                .values()
+                .forEach(bean ->
+                        components.add(buildComponent(bean, ComponentType.CONTROLLER)));
 
         // Services
         context.getBeansWithAnnotation(Service.class)
