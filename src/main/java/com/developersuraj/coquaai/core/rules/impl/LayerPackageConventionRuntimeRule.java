@@ -1,25 +1,24 @@
 package com.developersuraj.coquaai.core.rules.impl;
 
-import com.developersuraj.coquaai.Entity.*;
+import com.developersuraj.coquaai.Entity.ComponentInfo;
+import com.developersuraj.coquaai.Entity.Severity;
+import com.developersuraj.coquaai.Entity.SourceType;
+import com.developersuraj.coquaai.Entity.ViolationReport;
 import com.developersuraj.coquaai.core.rules.RuntimeRule;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LayerViolation implements RuntimeRule {
-
+public class LayerPackageConventionRuntimeRule implements RuntimeRule {
 
     @Override
     public String name() {
-        return "Controller Independence Rule";
+        return "Layer Package Convention Rule";
     }
 
     @Override
     public Severity severity() {
-        return Severity.HIGH;
+        return Severity.MEDIUM;
     }
 
     @Override
@@ -29,73 +28,70 @@ public class LayerViolation implements RuntimeRule {
 
         for (ComponentInfo component : components) {
 
-            if(component.getType() == ComponentType.CONTROLLER){
+            String packageName = component.getTargetClass().getPackageName();
 
-                for (Class<?> dep : component.getDependencies()) {
+            switch (component.getType()) {
 
-                    if (org.springframework.data.repository.Repository
-                            .class.isAssignableFrom(dep)) {
-
+                case CONTROLLER -> {
+                    if (!packageName.contains(".controller")) {
                         violationRuntimes.add(
                                 new ViolationReport(
                                         name(),
                                         severity(),
                                         String.format(
-                                                "Controller '%s' directly depends on Repository '%s'"
-                                                , component.getName()
-                                                , dep.getSimpleName()
+                                                "Controller '%s' should be inside a '.controller' package",
+                                                component.getName()
                                         ),
                                         SourceType.RUNTIME,
                                         component.getName(),
                                         null
-                                ));
+                                )
+                        );
                     }
                 }
-            }
-            else if (component.getType() == ComponentType.SERVICE) {
 
-                for(Class<?> dep : component.getDependencies()){
-
-                    if (dep.isAnnotationPresent(Controller.class) || dep.isAnnotationPresent(RestController.class)) {
-
+                case SERVICE -> {
+                    if (!packageName.contains(".service")) {
                         violationRuntimes.add(
                                 new ViolationReport(
                                         name(),
                                         severity(),
                                         String.format(
-                                                "Service '%s' should not be depends on Controller '%s'"
-                                                , component.getName()
-                                                , dep.getSimpleName()
+                                                "Service '%s' should be inside a '.service' package",
+                                                component.getName()
                                         ),
                                         SourceType.RUNTIME,
                                         component.getName(),
                                         null
-                                ));
+                                )
+                        );
                     }
                 }
-            }
-            else {
-                for(Class<?> dep : component.getDependencies()){
 
-                    if (dep.isAnnotationPresent(Service.class)) {
-
+                case REPOSITORY -> {
+                    if (!packageName.contains(".repository")) {
                         violationRuntimes.add(
                                 new ViolationReport(
                                         name(),
                                         severity(),
                                         String.format(
-                                                "Repository '%s' should not be depends on Service '%s'"
-                                                , component.getName()
-                                                , dep.getSimpleName()
+                                                "Repository '%s' should be inside a '.repository' package",
+                                                component.getName()
                                         ),
                                         SourceType.RUNTIME,
                                         component.getName(),
                                         null
-                                ));
+                                )
+                        );
                     }
+                }
+
+                default -> {
+                    // ignore other component types
                 }
             }
         }
+
         return violationRuntimes;
     }
 }

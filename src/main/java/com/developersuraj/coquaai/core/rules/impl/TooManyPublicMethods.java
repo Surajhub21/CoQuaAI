@@ -1,15 +1,12 @@
 package com.developersuraj.coquaai.core.rules.impl;
 
-import com.developersuraj.coquaai.Entity.ComponentInfo;
-import com.developersuraj.coquaai.Entity.ComponentType;
-import com.developersuraj.coquaai.Entity.Severity;
-import com.developersuraj.coquaai.Entity.Violation;
-import com.developersuraj.coquaai.core.rules.Rule;
+import com.developersuraj.coquaai.Entity.*;
+import com.developersuraj.coquaai.core.rules.RuntimeRule;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TooManyPublicMethods implements Rule {
+public class TooManyPublicMethods implements RuntimeRule {
     @Override
     public String name() {
         return "Too Many Public Methods";
@@ -21,25 +18,28 @@ public class TooManyPublicMethods implements Rule {
     }
 
     @Override
-    public List<Violation> evaluate(List<ComponentInfo> components) {
-        List<Violation> violations = new ArrayList<>();
+    public List<ViolationReport> evaluate(List<ComponentInfo> components) {
+        List<ViolationReport> violationRuntimes = new ArrayList<>();
 
         for (ComponentInfo component : components) {
 
             if(component.getType() ==  ComponentType.SERVICE && component.getTargetClass().getMethods().length > 10) {
-                violations.add(
-                        new Violation(
+                violationRuntimes.add(
+                        new ViolationReport(
                                 name() ,
                                 severity() ,
                                 String.format(
                                         "Class '%s' has too many public methods are hard to maintain"
                                         ,component.getName()
-                                )
+                                ),
+                                SourceType.RUNTIME,
+                                component.getName(),
+                                null
                         )
                 );
             }
         }
 
-        return violations;
+        return violationRuntimes;
     }
 }

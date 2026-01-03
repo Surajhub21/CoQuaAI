@@ -1,7 +1,9 @@
 package com.developersuraj.coquaai.config;
 
 import com.developersuraj.coquaai.core.analyzer.SpringContextScanner;
-import com.developersuraj.coquaai.core.engine.RuleEngine;
+import com.developersuraj.coquaai.core.engine.RuntimeRuleEngine;
+import com.developersuraj.coquaai.core.engine.StaticRuleEngine;
+import com.developersuraj.coquaai.core.rules.RuntimeRule;
 import com.developersuraj.coquaai.core.rules.impl.*;
 import com.developersuraj.coquaai.web.AiReviewController;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -24,15 +26,24 @@ public class AiAnalyzerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public RuleEngine ruleEngine() {
-        return new RuleEngine(
+    public RuntimeRuleEngine runtimeRuleEngine() {
+        return new RuntimeRuleEngine(
                 List.of(
-                        new LayerViolation() ,
-                        new NoFieldInjectionRule(),
+                        (RuntimeRule) new LayerViolation() ,
+                        new NoFieldInjectionRuntimeRule(),
                         new ControllerMultipleResponsibilities(),
                         new NamingConventionViolations(),
-                        new TooManyPublicMethods()
+                        new TooManyPublicMethods(),
+                        new LayerPackageConventionRuntimeRule()
                 )
+        );
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StaticRuleEngine staticRuleEngine() {
+        return new StaticRuleEngine(
+                List.of(new FieldInjectionRuntimeRule())
         );
     }
 
@@ -40,8 +51,9 @@ public class AiAnalyzerAutoConfiguration {
     @ConditionalOnMissingBean
     public AiReviewController aiReviewController(
             SpringContextScanner scanner,
-            RuleEngine ruleEngine
+            RuntimeRuleEngine runtimeRuleEngine,
+            StaticRuleEngine staticRuleEngine
     ) {
-        return new AiReviewController(scanner, ruleEngine);
+        return new AiReviewController(scanner, runtimeRuleEngine, staticRuleEngine);
     }
 }

@@ -2,15 +2,16 @@ package com.developersuraj.coquaai.core.rules.impl;
 
 import com.developersuraj.coquaai.Entity.ComponentInfo;
 import com.developersuraj.coquaai.Entity.Severity;
-import com.developersuraj.coquaai.Entity.Violation;
-import com.developersuraj.coquaai.core.rules.Rule;
+import com.developersuraj.coquaai.Entity.SourceType;
+import com.developersuraj.coquaai.Entity.ViolationReport;
+import com.developersuraj.coquaai.core.rules.RuntimeRule;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoFieldInjectionRule implements Rule {
+public class NoFieldInjectionRuntimeRule implements RuntimeRule {
 
     @Override
     public String name() {
@@ -23,9 +24,9 @@ public class NoFieldInjectionRule implements Rule {
     }
 
     @Override
-    public List<Violation> evaluate(List<ComponentInfo> components) {
+    public List<ViolationReport> evaluate(List<ComponentInfo> components) {
 
-        List<Violation> violations = new ArrayList<>();
+        List<ViolationReport> violationRuntimes = new ArrayList<>();
 
         for (ComponentInfo component : components) {
 
@@ -35,19 +36,22 @@ public class NoFieldInjectionRule implements Rule {
 
                 if (field.isAnnotationPresent(Autowired.class)) {
 
-                    violations.add(
-                            new Violation(
+                    violationRuntimes.add(
+                            new ViolationReport(
                                     name(),
                                     severity(),
                                     component.getName()
                                             + " uses field injection: "
-                                            + field.getName()
+                                            + field.getName(),
+                            SourceType.RUNTIME,
+                            component.getName(),
+                            null
                             )
                     );
                 }
             }
         }
 
-        return violations;
+        return violationRuntimes;
     }
 }
