@@ -1,22 +1,22 @@
 # CoQuaAI 🚀
 
-AI-Powered SOLID Principle Analyzer for Java & Spring Boot Applications
+Context-Aware SOLID Principle Analyzer for Spring Boot Applications
 
 ---
 
-## 📌 Overview
+# 📌 Overview
 
-**CoQuaAI** is an AI-powered code quality and architecture analysis platform designed to detect violations of **SOLID principles** in Java/Spring Boot applications.
+**CoQuaAI** is a static code analysis and architectural validation tool designed specifically for **Java and Spring Boot applications**.
 
-The project combines:
+Unlike traditional code analyzers, CoQuaAI understands:
 
-- Static Code Analysis
-- AST Parsing
-- Rule-Based Architecture Validation
-- AI-Generated Explanations
-- Refactoring Suggestions
+- Spring Dependency Injection
+- Bean Relationships
+- Layered Architecture
+- Context-Aware Dependencies
+- Application Structure
 
-Its goal is to help developers build cleaner, scalable, maintainable, and enterprise-grade software.
+The project focuses on detecting violations of **SOLID principles** using deep static analysis and Spring context awareness.
 
 ---
 
@@ -24,7 +24,7 @@ Its goal is to help developers build cleaner, scalable, maintainable, and enterp
 
 ## ✅ SOLID Principle Detection
 
-Analyze source code for violations of:
+Analyze codebases for violations of:
 
 - **S** → Single Responsibility Principle
 - **O** → Open/Closed Principle
@@ -34,28 +34,33 @@ Analyze source code for violations of:
 
 ---
 
-## ✅ AI-Powered Suggestions
+## ✅ Spring Context Awareness
 
-Generate:
+CoQuaAI understands Spring Boot architecture and analyzes:
 
-- Refactoring suggestions
-- Cleaner implementations
-- Architecture improvements
-- Best-practice explanations
+- `@Service`
+- `@Repository`
+- `@Controller`
+- `@Component`
+- Bean dependencies
+- Constructor injection
+- Circular dependencies
+- Layer violations
 
 ---
 
 ## ✅ Static Code Analysis
 
-Analyze:
+Performs deep source-code analysis for:
 
-- Classes
-- Interfaces
-- Dependencies
-- Inheritance
-- Method complexity
-- Coupling
+- Class responsibilities
+- Tight coupling
+- Inheritance misuse
+- Dependency chains
+- Fat interfaces
 - Package structure
+- Architectural violations
+- Service-layer complexity
 
 ---
 
@@ -69,29 +74,29 @@ mvn coquaai:analyze
 
 ---
 
-## ✅ Spring Boot Integration
+## ✅ CI/CD Friendly
 
-Can be integrated as:
+Can be integrated with:
 
-- Maven Plugin
-- Spring Boot Starter
-- CI/CD Quality Gate
-- GitHub Action
+- Maven Build Pipeline
+- GitHub Actions
+- Jenkins
+- GitLab CI
+- Sonar-based workflows
 
 ---
 
-# 🏗️ Planned Architecture
+# 🏗️ Architecture
 
 ```text
 coquaai/
 │
 ├── core-engine/
+├── parser-engine/
+├── spring-context-engine/
 ├── rule-engine/
-├── parser-module/
-├── ai-module/
-├── report-module/
+├── report-engine/
 ├── maven-plugin/
-├── spring-boot-starter/
 └── examples/
 ```
 
@@ -110,36 +115,25 @@ coquaai/
 - JavaParser
 - Spoon
 - OpenRewrite
+- ASM
 - PMD Custom Rules
-
-## AI Layer
-
-- OpenAI API
-- LangChain4j
-- LangGraph (Future)
-
-## Reporting
-
-- HTML Reports
-- JSON Reports
-- CI/CD Integration
 
 ---
 
-# 📖 Workflow
+# 📖 How It Works
 
 ```text
 Java Source Code
         ↓
 AST Parsing
         ↓
-Rule Engine Analysis
+Spring Context Resolution
+        ↓
+Dependency Graph Analysis
+        ↓
+SOLID Rule Evaluation
         ↓
 Violation Detection
-        ↓
-AI Explanation Layer
-        ↓
-Refactoring Suggestions
         ↓
 Report Generation
 ```
@@ -151,6 +145,7 @@ Report Generation
 ## ❌ SRP Violation
 
 ```java
+@Service
 public class UserService {
 
     public void saveUser() {}
@@ -161,16 +156,17 @@ public class UserService {
 }
 ```
 
-### Detected Problem
+### Detected Issues
 
 - Multiple responsibilities detected
+- Service layer overload
 - Violates Single Responsibility Principle (SRP)
 
 ---
 
-## ✅ Suggested Refactor
+## ✅ Suggested Structure
 
-```java
+```text
 UserService
 EmailService
 ReportService
@@ -180,11 +176,11 @@ ReportService
 
 # 🎯 Project Goals
 
-- Build a developer-friendly architecture analysis tool
-- Improve code maintainability
+- Build a Spring-aware architecture analysis tool
+- Improve maintainability of enterprise applications
+- Detect architectural anti-patterns
 - Reduce technical debt
-- Provide AI-assisted refactoring
-- Create enterprise-grade quality gates
+- Enforce clean code principles automatically
 
 ---
 
@@ -192,14 +188,14 @@ ReportService
 
 ## Planned Features
 
-- Auto-refactoring engine
-- UML generation
-- Design pattern detection
-- Architecture visualization
-- Multi-language support
-- GitHub PR review bot
-- VS Code Plugin
+- Multi-module project analysis
+- Incremental scanning
+- Architecture rule configuration
+- Custom rule engine
+- Visual dependency graph
 - IntelliJ Plugin
+- VS Code Extension
+- HTML reporting dashboard
 
 ---
 
@@ -211,11 +207,16 @@ ReportService
 git clone https://github.com/Surajhub21/CoQuaAI.git
 ```
 
-## Run Application
+## Build Project
 
 ```bash
-cd CoQuaAI
-./mvnw spring-boot:run
+./mvnw clean install
+```
+
+## Run Analyzer
+
+```bash
+mvn coquaai:analyze
 ```
 
 ---
@@ -228,12 +229,6 @@ cd CoQuaAI
 ./mvnw test
 ```
 
-## Build Project
-
-```bash
-./mvnw clean install
-```
-
 ---
 
 # 🤝 Contributing
@@ -243,9 +238,9 @@ Contributions are welcome.
 You can contribute by:
 
 - Adding new SOLID rules
-- Improving AI prompts
-- Enhancing report generation
-- Optimizing analysis performance
+- Improving Spring context analysis
+- Enhancing architecture validation
+- Optimizing parser performance
 - Writing documentation
 
 ---
