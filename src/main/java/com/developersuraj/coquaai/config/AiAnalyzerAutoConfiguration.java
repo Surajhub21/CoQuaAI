@@ -5,7 +5,9 @@ import com.developersuraj.coquaai.core.engine.RuntimeRuleEngine;
 import com.developersuraj.coquaai.core.engine.StaticRuleEngine;
 import com.developersuraj.coquaai.core.rules.RuntimeRule;
 import com.developersuraj.coquaai.core.rules.impl.*;
+import com.developersuraj.coquaai.web.AIPageController;
 import com.developersuraj.coquaai.web.AiReviewController;
+import com.developersuraj.coquaai.web.StarterBanner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +36,9 @@ public class AiAnalyzerAutoConfiguration {
                         new ControllerMultipleResponsibilities(),
                         new NamingConventionViolations(),
                         new TooManyPublicMethods(),
-                        new LayerPackageConventionRuntimeRule()
+                        new LayerPackageConventionRuntimeRule(),
+                        new TooManyDependenciesRule(),
+                        new ExcessivePublicMethodsRule()
                 )
         );
     }
@@ -43,7 +47,23 @@ public class AiAnalyzerAutoConfiguration {
     @ConditionalOnMissingBean
     public StaticRuleEngine staticRuleEngine() {
         return new StaticRuleEngine(
-                List.of(new FieldInjectionRuntimeRule())
+                List.of(
+                        new FieldInjectionRuntimeRule(),
+                        new MissingTransactionalRule(),
+                        new MissingValidatedRequestBodyRule(),
+                        new DuplicateRequestMappingRule(),
+                        new ConfigurationNamingConventionRule(),
+                        new DtoLeakageRule(),
+                        new EntityReturnTypeRule(),
+                        new MissingResponseEntityRule(),
+                        new MissingRequestMappingAnnotationRule(),
+                        new TooManyEndpointsRule(),
+                        new LongMethodRule(),
+                        new EmptyCatchBlockRule(),
+                        new SystemOutUsageRule(),
+                        new TodoFixmeCommentRule(),
+                        new MagicNumberRule()
+                )
         );
     }
 
@@ -55,5 +75,16 @@ public class AiAnalyzerAutoConfiguration {
             StaticRuleEngine staticRuleEngine
     ) {
         return new AiReviewController(scanner, runtimeRuleEngine, staticRuleEngine);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public StarterBanner starterBanner(){
+        return new StarterBanner();
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public AIPageController aiPageController(){
+        return new AIPageController();
     }
 }

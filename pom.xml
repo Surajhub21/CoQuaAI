@@ -11,7 +11,7 @@
 
     <groupId>com.github.Surajhub21</groupId>
     <artifactId>developersuraj-coquaai</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>CoQuaAI</name>
@@ -40,12 +40,6 @@
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-core</artifactId>
             <version>3.25.8</version>
-        </dependency>
-
-        <!-- For Finding Repository -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
         </dependency>
     </dependencies>
 

@@ -3,6 +3,7 @@ package com.developersuraj.coquaai.core.rules.impl;
 import com.developersuraj.coquaai.Entity.*;
 import com.developersuraj.coquaai.core.rules.RuntimeRule;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,8 +34,7 @@ public class LayerViolation implements RuntimeRule {
 
                 for (Class<?> dep : component.getDependencies()) {
 
-                    if (org.springframework.data.repository.Repository
-                            .class.isAssignableFrom(dep)) {
+                    if (Repository.class.isAssignableFrom(dep)) {
 
                         violationRuntimes.add(
                                 new ViolationReport(

@@ -4,6 +4,7 @@ import com.developersuraj.coquaai.Entity.ComponentInfo;
 import com.developersuraj.coquaai.Entity.ComponentType;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,7 +45,7 @@ public class SpringContextScanner {
 
         // Repositories (Spring Data)
         context.getBeansOfType(
-                        org.springframework.data.repository.Repository.class)
+                        Repository.class)
                 .values()
                 .forEach(bean ->
                         components.add(
