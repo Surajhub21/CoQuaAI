@@ -1,260 +1,207 @@
-# CoQuaAI 🚀
+# How CoQuaAI Works
 
-Context-Aware SOLID Principle Analyzer for Spring Boot Applications
+## Overview
 
----
+CoQuaAI is a lightweight Spring Boot Starter that analyzes the structure and quality of a Spring Boot application. It performs automated code quality checks using both **runtime inspection** and **static source code analysis**, then exposes the results through REST APIs.
 
-# 📌 Overview
-
-**CoQuaAI** is a static code analysis and architectural validation tool designed specifically for **Java and Spring Boot applications**.
-
-Unlike traditional code analyzers, CoQuaAI understands:
-
-- Spring Dependency Injection
-- Bean Relationships
-- Layered Architecture
-- Context-Aware Dependencies
-- Application Structure
-
-The project focuses on detecting violations of **SOLID principles** using deep static analysis and Spring context awareness.
+The goal of CoQuaAI is to help developers identify architectural issues, code smells, and common Spring Boot mistakes before they become maintenance problems.
 
 ---
 
-# ✨ Features
+# Architecture
 
-## ✅ SOLID Principle Detection
-
-Analyze codebases for violations of:
-
-- **S** → Single Responsibility Principle
-- **O** → Open/Closed Principle
-- **L** → Liskov Substitution Principle
-- **I** → Interface Segregation Principle
-- **D** → Dependency Inversion Principle
-
----
-
-## ✅ Spring Context Awareness
-
-CoQuaAI understands Spring Boot architecture and analyzes:
-
-- `@Service`
-- `@Repository`
-- `@Controller`
-- `@Component`
-- Bean dependencies
-- Constructor injection
-- Circular dependencies
-- Layer violations
-
----
-
-## ✅ Static Code Analysis
-
-Performs deep source-code analysis for:
-
-- Class responsibilities
-- Tight coupling
-- Inheritance misuse
-- Dependency chains
-- Fat interfaces
-- Package structure
-- Architectural violations
-- Service-layer complexity
-
----
-
-## ✅ Maven Plugin Support
-
-Run analysis directly from Maven:
-
-```bash
-mvn coquaai:analyze
-```
-
----
-
-## ✅ CI/CD Friendly
-
-Can be integrated with:
-
-- Maven Build Pipeline
-- GitHub Actions
-- Jenkins
-- GitLab CI
-- Sonar-based workflows
-
----
-
-# 🏗️ Architecture
+CoQuaAI is divided into several independent modules.
 
 ```text
-coquaai/
-│
-├── core-engine/
-├── parser-engine/
-├── spring-context-engine/
-├── rule-engine/
-├── report-engine/
-├── maven-plugin/
-└── examples/
+Spring Boot Application
+            │
+            ▼
+  SpringContextScanner
+            │
+            ▼
+     Runtime Metadata
+            │
+            ▼
+   Runtime Rule Engine
+            │
+            ▼
+   Static Rule Engine
+            │
+            ▼
+      AI Review (Optional)
+            │
+            ▼
+       REST Endpoints
 ```
 
----
-
-# 🛠️ Tech Stack
-
-## Backend
-
-- Java 21
-- Spring Boot
-- Maven
-
-## Static Analysis
-
-- JavaParser
-- Spoon
-- OpenRewrite
-- ASM
-- PMD Custom Rules
+Each component has a single responsibility, making the project easy to extend with additional rules.
 
 ---
 
-# 📖 How It Works
+# Runtime Analysis
 
-```text
-Java Source Code
-        ↓
-AST Parsing
-        ↓
-Spring Context Resolution
-        ↓
-Dependency Graph Analysis
-        ↓
-SOLID Rule Evaluation
-        ↓
-Violation Detection
-        ↓
-Report Generation
-```
+The runtime analyzer starts after the Spring Boot application has been initialized.
 
----
+It scans the Spring Application Context and discovers components such as:
 
-# 📌 Example
+* Controllers
+* Services
+* Repositories
+* Components
+* Configurations
 
-## ❌ SRP Violation
+Instead of parsing source files, this analysis works with actual Spring-managed beans.
 
-```java
-@Service
-public class UserService {
+For every discovered bean, CoQuaAI collects information such as:
 
-    public void saveUser() {}
+* Bean type
+* Package
+* Dependencies
+* Injected fields
+* Public methods
+* Implemented interfaces
+* Parent classes
 
-    public void sendEmail() {}
-
-    public void generateReport() {}
-}
-```
-
-### Detected Issues
-
-- Multiple responsibilities detected
-- Service layer overload
-- Violates Single Responsibility Principle (SRP)
+This metadata is then passed to the Runtime Rule Engine.
 
 ---
 
-## ✅ Suggested Structure
+# Runtime Rule Engine
 
-```text
-UserService
-EmailService
-ReportService
-```
+The Runtime Rule Engine executes rules that require knowledge of the running Spring application.
 
----
+Examples include:
 
-# 🎯 Project Goals
+* Layer violations
+* Circular dependencies
+* Multiple controller responsibilities
+* Package structure validation
+* Dependency analysis
 
-- Build a Spring-aware architecture analysis tool
-- Improve maintainability of enterprise applications
-- Detect architectural anti-patterns
-- Reduce technical debt
-- Enforce clean code principles automatically
+Every rule is independent and produces a report without affecting other rules.
+
+This makes adding new runtime rules straightforward.
 
 ---
 
-# 🔮 Future Roadmap
+# Static Analysis
 
-## Planned Features
+Some problems cannot be detected by inspecting Spring beans.
 
-- Multi-module project analysis
-- Incremental scanning
-- Architecture rule configuration
-- Custom rule engine
-- Visual dependency graph
-- IntelliJ Plugin
-- VS Code Extension
-- HTML reporting dashboard
+For these cases, CoQuaAI performs static source code analysis.
 
----
+It scans Java source files and extracts information such as:
 
-# ⚡ Installation
+* Class declarations
+* Fields
+* Methods
+* Annotations
+* Imports
+* Modifiers
 
-## Clone Repository
-
-```bash
-git clone https://github.com/Surajhub21/CoQuaAI.git
-```
-
-## Build Project
-
-```bash
-./mvnw clean install
-```
-
-## Run Analyzer
-
-```bash
-mvn coquaai:analyze
-```
+This enables detection of issues before they appear at runtime.
 
 ---
 
-# 🧪 Development
+# Static Rule Engine
 
-## Run Tests
+The Static Rule Engine evaluates rules based on the parsed source code.
 
-```bash
-./mvnw test
-```
+Examples include:
 
----
+* Field Injection
+* DTO Leakage
+* Missing Request Mapping
+* Naming Convention Violations
+* Excessive Public Methods
 
-# 🤝 Contributing
+Each rule returns:
 
-Contributions are welcome.
-
-You can contribute by:
-
-- Adding new SOLID rules
-- Improving Spring context analysis
-- Enhancing architecture validation
-- Optimizing parser performance
-- Writing documentation
+* Rule name
+* Severity
+* Description
+* Affected class
+* Suggested improvement
 
 ---
 
-# 📜 License
+# AI Review
 
-MIT License
+CoQuaAI optionally integrates with Spring AI.
+
+When configured, analysis results can be sent to an LLM to generate:
+
+* Architecture feedback
+* Refactoring suggestions
+* Code quality summaries
+* Best practice recommendations
+
+AI integration is optional and requires users to configure their own AI provider and API credentials.
 
 ---
 
-# 👨‍💻 Author
+# REST API
 
-**Suraj Mondal**
+After analysis completes, CoQuaAI exposes REST endpoints that return the generated reports.
 
-GitHub: https://github.com/Surajhub21
+Typical endpoints include:
 
-Project: https://github.com/Surajhub21/CoQuaAI
+* Runtime analysis
+* Static analysis
+* AI review
+* Health information
+
+This allows developers to integrate CoQuaAI with dashboards, CI/CD pipelines, or custom tools.
+
+---
+
+# Extending CoQuaAI
+
+Adding a new rule is intentionally simple.
+
+### Runtime Rule
+
+1. Implement the runtime rule interface.
+2. Read runtime metadata.
+3. Return rule violations.
+4. Register the rule.
+
+### Static Rule
+
+1. Implement the static rule interface.
+2. Analyze parsed source information.
+3. Return violations.
+4. Register the rule.
+
+No existing code needs to be modified, allowing new rules to be added without impacting existing functionality.
+
+---
+
+# Design Principles
+
+CoQuaAI is designed around the following principles:
+
+* Modular architecture
+* Extensible rule engine
+* Separation of runtime and static analysis
+* Low coupling
+* High cohesion
+* Optional AI integration
+* Easy integration into any Spring Boot project
+
+---
+
+# Why Build CoQuaAI?
+
+Many code quality tools focus on syntax, formatting, or generic Java issues. CoQuaAI was created to provide analysis specifically for Spring Boot applications.
+
+It combines:
+
+* Spring runtime inspection
+* Static source analysis
+* Architecture validation
+* Optional AI-powered reviews
+
+into a single starter that developers can add to their projects with minimal configuration.
+
+The project is designed to grow over time, making it easy to introduce new quality rules, architectural checks, and AI capabilities while keeping the core architecture clean and maintainable.
