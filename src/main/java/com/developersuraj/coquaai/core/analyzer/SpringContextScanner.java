@@ -31,11 +31,6 @@ public class SpringContextScanner {
                         components.add(
                                 buildComponent(bean, ComponentType.CONTROLLER)));
 
-        context.getBeansWithAnnotation(Controller.class)
-                .values()
-                .forEach(bean ->
-                        components.add(buildComponent(bean, ComponentType.CONTROLLER)));
-
         // Services
         context.getBeansWithAnnotation(Service.class)
                 .values()
