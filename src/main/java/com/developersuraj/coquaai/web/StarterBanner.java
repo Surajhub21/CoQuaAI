@@ -16,6 +16,7 @@ public class StarterBanner {
     @Value("${server.port:8080}")
     private String port;
 
+
     @EventListener(ApplicationReadyEvent.class)
     public void onReady() {
 

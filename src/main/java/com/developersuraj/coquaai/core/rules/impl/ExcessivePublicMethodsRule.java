@@ -10,7 +10,11 @@ import java.util.List;
 
 public class ExcessivePublicMethodsRule implements RuntimeRule {
 
-    private static final int MAX_PUBLIC_METHODS = 15;
+    private final int maxPublicMethods;
+
+    public ExcessivePublicMethodsRule(int maxPublicMethods) {
+        this.maxPublicMethods = maxPublicMethods;
+    }
 
     @Override
     public String name() {
@@ -31,7 +35,7 @@ public class ExcessivePublicMethodsRule implements RuntimeRule {
 
             long publicMethodCount = countDeclaredPublicMethods(component.getTargetClass());
 
-            if (publicMethodCount > MAX_PUBLIC_METHODS) {
+            if (publicMethodCount > maxPublicMethods) {
 
                 violationRuntimes.add(
                         new ViolationReport(
@@ -41,7 +45,7 @@ public class ExcessivePublicMethodsRule implements RuntimeRule {
                                         "Class '%s' exposes %d public methods, exceeding the recommended maximum of %d. Consider splitting it into smaller, more focused classes.",
                                         component.getName(),
                                         publicMethodCount,
-                                        MAX_PUBLIC_METHODS
+                                        maxPublicMethods
                                 ),
                                 SourceType.RUNTIME,
                                 component.getName() + ".java",

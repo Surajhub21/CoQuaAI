@@ -26,7 +26,7 @@ public class NamingConventionViolations implements RuntimeRule {
 
             if(component.getType() == ComponentType.CONTROLLER){
 
-                if(!component.getName().contains("Controller")){
+                if(!component.getName().endsWith("Controller")){
                     violationRuntimes.add(
                             new ViolationReport(
                                     name(),
@@ -43,7 +43,7 @@ public class NamingConventionViolations implements RuntimeRule {
                 }
             }
             else if(component.getType() == ComponentType.SERVICE){
-                if(!component.getName().contains("Service")){
+                if(!component.getName().endsWith("Service")){
                     violationRuntimes.add(
                             new ViolationReport(
                                     name(),
@@ -60,7 +60,7 @@ public class NamingConventionViolations implements RuntimeRule {
                 }
             }
             else if(component.getType() == ComponentType.REPOSITORY){
-                if(!component.getName().contains("Repository")){
+                if(!component.getName().endsWith("Repository")){
                     violationRuntimes.add(
                             new ViolationReport(
                                     name(),

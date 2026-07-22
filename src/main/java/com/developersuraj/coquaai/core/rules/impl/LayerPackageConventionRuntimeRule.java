@@ -7,6 +7,7 @@ import com.developersuraj.coquaai.Entity.ViolationReport;
 import com.developersuraj.coquaai.core.rules.RuntimeRule;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LayerPackageConventionRuntimeRule implements RuntimeRule {
@@ -33,7 +34,7 @@ public class LayerPackageConventionRuntimeRule implements RuntimeRule {
             switch (component.getType()) {
 
                 case CONTROLLER -> {
-                    if (!packageName.contains(".controller")) {
+                    if (!containsSegment(packageName, "controller")) {
                         violationRuntimes.add(
                                 new ViolationReport(
                                         name(),
@@ -51,7 +52,7 @@ public class LayerPackageConventionRuntimeRule implements RuntimeRule {
                 }
 
                 case SERVICE -> {
-                    if (!packageName.contains(".service")) {
+                    if (!containsSegment(packageName, "service")) {
                         violationRuntimes.add(
                                 new ViolationReport(
                                         name(),
@@ -69,7 +70,7 @@ public class LayerPackageConventionRuntimeRule implements RuntimeRule {
                 }
 
                 case REPOSITORY -> {
-                    if (!packageName.contains(".repository")) {
+                    if (!containsSegment(packageName, "repository")) {
                         violationRuntimes.add(
                                 new ViolationReport(
                                         name(),
@@ -93,5 +94,9 @@ public class LayerPackageConventionRuntimeRule implements RuntimeRule {
         }
 
         return violationRuntimes;
+    }
+
+    private boolean containsSegment(String packageName, String segment) {
+        return Arrays.asList(packageName.split("\\.")).contains(segment);
     }
 }

@@ -24,6 +24,7 @@ public class StaticCodeScanning {
 
         Files.walk(projectRoot)
                 .filter(p -> p.toString().endsWith(".java"))
+                .filter(this::isNotBuildOrIdeArtifact)
                 .forEach(file -> {
                     try {
                         CompilationUnit cu = StaticJavaParser.parse(file);
@@ -36,5 +37,13 @@ public class StaticCodeScanning {
                 });
 
         return violations;
+    }
+
+    private boolean isNotBuildOrIdeArtifact(Path path) {
+        String normalized = path.toString().replace('\\', '/');
+        return !normalized.contains("/target/")
+                && !normalized.contains("/build/")
+                && !normalized.contains("/.idea/")
+                && !normalized.contains("/node_modules/");
     }
 }

@@ -8,6 +8,6 @@ public class AIPageController {
 
     @GetMapping("/ai-review")
     public String page() {
-        return "redirect:/ai-review.html";
+        return "forward:/ai-review.html";
     }
 }

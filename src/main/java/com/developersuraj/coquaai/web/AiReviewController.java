@@ -5,6 +5,8 @@ import com.developersuraj.coquaai.Entity.ViolationReport;
 import com.developersuraj.coquaai.core.analyzer.SpringContextScanner;
 import com.developersuraj.coquaai.core.engine.RuntimeRuleEngine;
 import com.developersuraj.coquaai.core.engine.StaticRuleEngine;
+import com.developersuraj.coquaai.core.score.ProjectScoreCalculator;
+import com.developersuraj.coquaai.core.score.ProjectScoreReport;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,31 +22,48 @@ public class AiReviewController {
 
     private final SpringContextScanner runtimCodeScanning;
     private final RuntimeRuleEngine runtimeRuleEngine;
+    private final StaticRuleEngine staticRuleEngine;
+    private final ProjectScoreCalculator projectScoreCalculator;
 
-    private StaticRuleEngine staticRuleEngine;
-
-    public AiReviewController(SpringContextScanner runtimCodeScanning, RuntimeRuleEngine runtimeRuleEngine, StaticRuleEngine staticRuleEngine) {
+    public AiReviewController(SpringContextScanner runtimCodeScanning,
+                               RuntimeRuleEngine runtimeRuleEngine,
+                               StaticRuleEngine staticRuleEngine,
+                               ProjectScoreCalculator projectScoreCalculator) {
         this.runtimCodeScanning = runtimCodeScanning;
         this.runtimeRuleEngine = runtimeRuleEngine;
         this.staticRuleEngine = staticRuleEngine;
+        this.projectScoreCalculator = projectScoreCalculator;
     }
 
     @GetMapping("/report")
     public ResponseEntity<List<?>> report() {
 
         try {
-            List<ViolationReport> reports = new ArrayList<>();
-
-            List<ComponentInfo> scan = runtimCodeScanning.scan();
-            reports.addAll(runtimeRuleEngine.evaluate(scan));
-            reports.addAll(staticRuleEngine.analyzeProject());
-
-            return ResponseEntity.ok(reports);
-
+            return ResponseEntity.ok(collectViolations());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-}
+    @GetMapping("/score")
+    public ResponseEntity<ProjectScoreReport> score() {
 
+        try {
+            return ResponseEntity.ok(projectScoreCalculator.calculate(collectViolations()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private List<ViolationReport> collectViolations() throws IOException {
+
+        List<ViolationReport> reports = new ArrayList<>();
+
+        List<ComponentInfo> scan = runtimCodeScanning.scan();
+        reports.addAll(runtimeRuleEngine.evaluate(scan));
+        reports.addAll(staticRuleEngine.analyzeProject());
+
+        return reports;
+    }
+
+}

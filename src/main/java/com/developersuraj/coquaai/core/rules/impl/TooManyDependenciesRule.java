@@ -8,7 +8,11 @@ import java.util.List;
 
 public class TooManyDependenciesRule implements RuntimeRule {
 
-    private static final int MAX_DEPENDENCIES = 8;
+    private final int maxDependencies;
+
+    public TooManyDependenciesRule(int maxDependencies) {
+        this.maxDependencies = maxDependencies;
+    }
 
     @Override
     public String name() {
@@ -27,7 +31,7 @@ public class TooManyDependenciesRule implements RuntimeRule {
 
         for (ComponentInfo component : components) {
 
-            if (component.getDependencies().size() > MAX_DEPENDENCIES) {
+            if (component.getDependencies().size() > maxDependencies) {
 
                 violationRuntimes.add(
                         new ViolationReport(
@@ -37,7 +41,7 @@ public class TooManyDependenciesRule implements RuntimeRule {
                                         "Class '%s' injects %d dependencies, exceeding the recommended maximum of %d. Consider splitting its responsibilities.",
                                         component.getName(),
                                         component.getDependencies().size(),
-                                        MAX_DEPENDENCIES
+                                        maxDependencies
                                 ),
                                 SourceType.RUNTIME,
                                 component.getName() + ".java",
