@@ -1,5 +1,7 @@
 package com.developersuraj.coquaai.config;
 
+import com.developersuraj.coquaai.AI.AiProperties;
+import com.developersuraj.coquaai.AI.GeminiService;
 import com.developersuraj.coquaai.core.analyzer.SpringContextScanner;
 import com.developersuraj.coquaai.core.engine.RuntimeRuleEngine;
 import com.developersuraj.coquaai.core.engine.StaticRuleEngine;
@@ -16,13 +18,31 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
 @Configuration
-@EnableConfigurationProperties(CoQuaAIProperties.class)
+@EnableConfigurationProperties({
+        CoQuaAIProperties.class,
+        AiProperties.class
+})
 @ConditionalOnProperty(prefix = "coquaai", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AiAnalyzerAutoConfiguration {
+
+    @Bean
+    @ConditionalOnProperty(
+            prefix = "coquaai.ai",
+            name = "enabled",
+            havingValue = "true")
+    public GeminiService geminiService(
+            RestClient restClient,
+            AiProperties properties
+    ) {
+
+        return new GeminiService(restClient, properties);
+
+    }
 
     @Bean
     @ConditionalOnMissingBean
@@ -173,9 +193,10 @@ public class AiAnalyzerAutoConfiguration {
             SpringContextScanner scanner,
             RuntimeRuleEngine runtimeRuleEngine,
             StaticRuleEngine staticRuleEngine,
-            ProjectScoreCalculator projectScoreCalculator
+            ProjectScoreCalculator projectScoreCalculator,
+            GeminiService geminiService
     ) {
-        return new AiReviewController(scanner, runtimeRuleEngine, staticRuleEngine, projectScoreCalculator);
+        return new AiReviewController(scanner, runtimeRuleEngine, staticRuleEngine, projectScoreCalculator, geminiService);
     }
 
     @Bean
