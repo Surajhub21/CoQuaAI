@@ -32,7 +32,7 @@ public class ConfigurationNamingConventionRule implements StaticRule {
                         "Bean Naming Convention",
                         Severity.LOW,
                         String.format(
-                                "Configuration class '%s' should be suffixed with 'Configuration'.",
+                                "Configuration class %s should be suffixed with Configuration.",
                                 classDeclaration.getNameAsString()
                         ),
                         SourceType.STATIC,

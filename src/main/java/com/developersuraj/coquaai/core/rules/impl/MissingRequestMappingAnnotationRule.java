@@ -37,7 +37,7 @@ public class MissingRequestMappingAnnotationRule implements StaticRule {
                                     "Missing Request Mapping",
                                     Severity.MEDIUM,
                                     String.format(
-                                            "Public method '%s' in controller '%s' has no @RequestMapping/@GetMapping/etc. annotation.",
+                                            "Public method %s in controller %s has no @RequestMapping/@GetMapping/etc. annotation.",
                                             method.getNameAsString(), controller.getNameAsString()
                                     ),
                                     SourceType.STATIC,

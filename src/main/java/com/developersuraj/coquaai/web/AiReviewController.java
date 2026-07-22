@@ -50,7 +50,10 @@ public class AiReviewController {
     public AiResponse explain(
             @RequestBody AiRequest request
     ) {
-
+        if (geminiService == null) {
+            throw new IllegalStateException(
+                    "AI is disabled. Configure coquaai.ai.enabled=true");
+        }
         ViolationReport violation =
                 ViolationMapper.toViolation(request);
 

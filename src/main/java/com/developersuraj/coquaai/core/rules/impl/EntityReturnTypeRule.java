@@ -43,7 +43,7 @@ public class EntityReturnTypeRule implements StaticRule {
                             "Entity Returned Directly",
                             Severity.HIGH,
                             String.format(
-                                    "Method '%s' in controller '%s' returns entity type '%s' directly instead of a response DTO.",
+                                    "Method %s in controller %s returns entity type %s directly instead of a response DTO.",
                                     method.getNameAsString(), controller.getNameAsString(), returnTypeName
                             ),
                             SourceType.STATIC,

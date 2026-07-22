@@ -71,7 +71,7 @@ public class DtoLeakageRule implements StaticRule {
                 "DTO Leakage",
                 Severity.HIGH,
                 String.format(
-                        "Method '%s' in controller '%s' %s the entity type '%s' directly. Expose a dedicated DTO instead.",
+                        "Method %s in controller %s %s the entity type %s directly. Expose a dedicated DTO instead.",
                         methodName, controllerName, direction, simpleTypeName
                 ),
                 SourceType.STATIC,

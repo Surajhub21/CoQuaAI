@@ -30,7 +30,7 @@ public class ControllerMultipleResponsibilities implements RuntimeRule {
                                 name(),
                                 severity(),
                                 String.format(
-                                        "Controller '%s' Violates Single Responsibility Principle by injecting so many dependencies (e.g. 4)" ,
+                                        "Controller %s Violates Single Responsibility Principle by injecting so many dependencies (e.g. 4)" ,
                                         component.getName()
                                 ),
                                 SourceType.RUNTIME,

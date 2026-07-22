@@ -32,7 +32,7 @@ public class NamingConventionViolations implements RuntimeRule {
                                     name(),
                                     severity(),
                                     String.format(
-                                            "Controller '%s' with no 'Controller suffix'."
+                                            "Controller %s with no Controller suffix."
                                             ,component.getName()
                                     ),
                                     SourceType.RUNTIME,

@@ -43,7 +43,7 @@ public class MagicNumberRule implements StaticRule {
             violations.add(new ViolationReport(
                     "Magic Number",
                     Severity.LOW,
-                    String.format("Magic number '%s' should be extracted into a named constant.", literal.getValue()),
+                    String.format("Magic number %s should be extracted into a named constant.", literal.getValue()),
                     SourceType.STATIC,
                     file.toString(),
                     line

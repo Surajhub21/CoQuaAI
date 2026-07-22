@@ -76,7 +76,7 @@ public class LayerPackageConventionRuntimeRule implements RuntimeRule {
                                         name(),
                                         severity(),
                                         String.format(
-                                                "Repository '%s' should be inside a '.repository' package",
+                                                "Repository %s should be inside a .repository package",
                                                 component.getName()
                                         ),
                                         SourceType.RUNTIME,

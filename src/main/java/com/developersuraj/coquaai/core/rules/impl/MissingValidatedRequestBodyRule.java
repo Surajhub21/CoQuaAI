@@ -48,7 +48,7 @@ public class MissingValidatedRequestBodyRule implements StaticRule {
                                     "Missing @Validated on Request Body",
                                     Severity.MEDIUM,
                                     String.format(
-                                            "Parameter '%s' of type '%s' is annotated @RequestBody but not @Valid/@Validated, even though the DTO declares validation constraints.",
+                                            "Parameter %s of type %s is annotated @RequestBody but not @Valid/@Validated, even though the DTO declares validation constraints.",
                                             parameter.getNameAsString(),
                                             dtoTypeName
                                     ),

@@ -39,7 +39,7 @@ public class SystemOutUsageRule implements StaticRule {
             violations.add(new ViolationReport(
                     "System.out Usage",
                     Severity.LOW,
-                    String.format("'%s.%s' should be replaced with a proper logging framework (e.g. SLF4J).", scope, call.getNameAsString()),
+                    String.format("%s.%s should be replaced with a proper logging framework (e.g. SLF4J).", scope, call.getNameAsString()),
                     SourceType.STATIC,
                     file.toString(),
                     line

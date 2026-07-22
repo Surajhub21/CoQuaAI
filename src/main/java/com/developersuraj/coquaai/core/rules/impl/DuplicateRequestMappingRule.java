@@ -49,7 +49,7 @@ public class DuplicateRequestMappingRule implements StaticRule {
                                             "Duplicate Request Mapping",
                                             Severity.HIGH,
                                             String.format(
-                                                    "Method '%s' in class '%s' duplicates the mapping '%s' already declared by method '%s'.",
+                                                    "Method %s in class %s duplicates the mapping %s already declared by method %s.",
                                                     method.getNameAsString(),
                                                     classDeclaration.getNameAsString(),
                                                     key,

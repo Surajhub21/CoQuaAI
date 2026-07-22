@@ -41,7 +41,7 @@ public class LayerViolation implements RuntimeRule {
                                         name(),
                                         severity(),
                                         String.format(
-                                                "Controller '%s' directly depends on Repository '%s'"
+                                                "Controller %s directly depends on Repository %s"
                                                 , component.getName()
                                                 , dep.getSimpleName()
                                         ),

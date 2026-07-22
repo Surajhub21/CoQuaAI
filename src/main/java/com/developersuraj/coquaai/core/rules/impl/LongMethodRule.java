@@ -34,7 +34,7 @@ public class LongMethodRule implements StaticRule {
                         "Long Method",
                         Severity.MEDIUM,
                         String.format(
-                                "Method '%s' spans %d lines, exceeding the recommended maximum of %d. Consider extracting smaller methods.",
+                                "Method %s spans %d lines, exceeding the recommended maximum of %d. Consider extracting smaller methods.",
                                 method.getNameAsString(), lineCount, MAX_METHOD_LINES
                         ),
                         SourceType.STATIC,

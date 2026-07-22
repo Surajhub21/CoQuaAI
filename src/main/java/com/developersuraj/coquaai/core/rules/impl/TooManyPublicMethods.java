@@ -29,7 +29,7 @@ public class TooManyPublicMethods implements RuntimeRule {
                                 name() ,
                                 severity() ,
                                 String.format(
-                                        "Class '%s' has too many public methods are hard to maintain"
+                                        "Class %s has too many public methods are hard to maintain"
                                         ,component.getName()
                                 ),
                                 SourceType.RUNTIME,

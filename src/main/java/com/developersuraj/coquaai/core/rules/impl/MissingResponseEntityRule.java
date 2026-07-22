@@ -40,7 +40,7 @@ public class MissingResponseEntityRule implements StaticRule {
                                     "Missing ResponseEntity",
                                     Severity.LOW,
                                     String.format(
-                                            "Endpoint method '%s' in controller '%s' returns '%s' instead of ResponseEntity, limiting control over HTTP status and headers.",
+                                            "Endpoint method %s in controller %s returns %s instead of ResponseEntity, limiting control over HTTP status and headers.",
                                             method.getNameAsString(), controller.getNameAsString(), method.getType().asString()
                                     ),
                                     SourceType.STATIC,

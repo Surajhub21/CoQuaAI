@@ -42,7 +42,7 @@ public class TooManyEndpointsRule implements StaticRule {
                                 "Too Many Endpoints",
                                 Severity.MEDIUM,
                                 String.format(
-                                        "Controller '%s' declares %d endpoints, exceeding the recommended maximum of %d. Consider splitting it into multiple controllers.",
+                                        "Controller %s declares %d endpoints, exceeding the recommended maximum of %d. Consider splitting it into multiple controllers.",
                                         controller.getNameAsString(), endpointCount, MAX_ENDPOINTS
                                 ),
                                 SourceType.STATIC,

@@ -48,7 +48,7 @@ public class MissingTransactionalRule implements StaticRule {
                         "Missing @Transactional",
                         Severity.MEDIUM,
                         String.format(
-                                "Method '%s' in service '%s' appears to modify data but is not annotated with @Transactional.",
+                                "Method %s in service %s appears to modify data but is not annotated with @Transactional.",
                                 method.getNameAsString(),
                                 classDeclaration.getNameAsString()
                         ),

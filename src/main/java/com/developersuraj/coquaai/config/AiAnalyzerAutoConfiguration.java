@@ -12,6 +12,7 @@ import com.developersuraj.coquaai.core.score.ProjectScoreCalculator;
 import com.developersuraj.coquaai.web.AIPageController;
 import com.developersuraj.coquaai.web.AiReviewController;
 import com.developersuraj.coquaai.web.StarterBanner;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -29,6 +30,17 @@ import java.util.List;
 })
 @ConditionalOnProperty(prefix = "coquaai", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class AiAnalyzerAutoConfiguration {
+
+    @Bean
+    @ConditionalOnProperty(
+            prefix = "coquaai.ai",
+            name = "enabled",
+            havingValue = "true")
+    RestClient geminiRestClient() {
+
+        return RestClient.builder()
+                .build();
+    }
 
     @Bean
     @ConditionalOnProperty(
@@ -194,9 +206,14 @@ public class AiAnalyzerAutoConfiguration {
             RuntimeRuleEngine runtimeRuleEngine,
             StaticRuleEngine staticRuleEngine,
             ProjectScoreCalculator projectScoreCalculator,
-            GeminiService geminiService
+            ObjectProvider<GeminiService> geminiService
     ) {
-        return new AiReviewController(scanner, runtimeRuleEngine, staticRuleEngine, projectScoreCalculator, geminiService);
+        return new AiReviewController(
+                scanner,
+                runtimeRuleEngine,
+                staticRuleEngine,
+                projectScoreCalculator,
+                geminiService.getIfAvailable());
     }
 
     @Bean

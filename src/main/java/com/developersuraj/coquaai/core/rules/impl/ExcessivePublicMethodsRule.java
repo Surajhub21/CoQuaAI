@@ -42,7 +42,7 @@ public class ExcessivePublicMethodsRule implements RuntimeRule {
                                 name(),
                                 severity(),
                                 String.format(
-                                        "Class '%s' exposes %d public methods, exceeding the recommended maximum of %d. Consider splitting it into smaller, more focused classes.",
+                                        "Class %s exposes %d public methods, exceeding the recommended maximum of %d. Consider splitting it into smaller, more focused classes.",
                                         component.getName(),
                                         publicMethodCount,
                                         maxPublicMethods

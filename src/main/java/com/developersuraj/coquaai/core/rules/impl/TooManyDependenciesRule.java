@@ -38,7 +38,7 @@ public class TooManyDependenciesRule implements RuntimeRule {
                                 name(),
                                 severity(),
                                 String.format(
-                                        "Class '%s' injects %d dependencies, exceeding the recommended maximum of %d. Consider splitting its responsibilities.",
+                                        "Class %s injects %d dependencies, exceeding the recommended maximum of %d. Consider splitting its responsibilities.",
                                         component.getName(),
                                         component.getDependencies().size(),
                                         maxDependencies

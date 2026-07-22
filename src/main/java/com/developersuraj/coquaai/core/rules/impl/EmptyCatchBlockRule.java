@@ -30,7 +30,7 @@ public class EmptyCatchBlockRule implements StaticRule {
                     "Empty Catch Block",
                     Severity.HIGH,
                     String.format(
-                            "Catch block for '%s' is empty, silently swallowing the exception.",
+                            "Catch block for %s is empty, silently swallowing the exception.",
                             catchClause.getParameter().getType().asString()
                     ),
                     SourceType.STATIC,
